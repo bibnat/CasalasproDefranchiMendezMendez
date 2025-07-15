@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Recetas</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            margin: 30px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            color: #2c3e50;
+        }
+
+        .mensaje {
+            color: green;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: #fff;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #2980b9;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<h1>📋 Recetas Registradas</h1>
+
+<div th:if="${mensaje}" class="mensaje" th:text="${mensaje}"></div>
+<div th:if="${error}" class="error" th:text="${error}"></div>
+
+<a th:href="@{/recetas/nueva}">➕ Nueva Receta</a>
+<br/>
+<h2>🔍 Buscar </h2>
+
+<form th:action="@{/recetas/buscar}" method="get">
+    <label>Nombre:</label>
+    <input type="text" name="nombre" />
+
+    <label>Calorías entre:</label>
+    <input type="number" name="caloriasMin" /> y
+    <input type="number" name="caloriasMax" />
+
+    <button type="submit">🔍 Filtrar</button>
+</form>
+<br/>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Calorías Totales</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="receta : ${recetas}">
+            <td th:text="${receta.nombre}">Nombre</td>
+            <td th:text="${receta.descripcion}">Descripción</td>
+            <td th:text="${caloriasPorReceta[receta.id]}">0</td>
+            <td>
+                <a th:href="@{'/recetas/editar/' + ${receta.id}}">✏️ Editar</a> |
+                <a th:href="@{'/recetas/eliminar/' + ${receta.id}}" onclick="return confirm('¿Eliminar receta?')">🗑 Eliminar</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Listado de Entregas</title>
+	
+	<style>
+			    body {
+			        font-family: "Segoe UI", sans-serif;
+			        margin: 30px;
+			        background-color: #f9f9f9;
+			    }
+
+			    h1, h2, h3 {
+			        color: #2c3e50;
+			        margin-bottom: 15px;
+			    }
+
+			    .form-section {
+			        background-color: #fff;
+			        border: 1px solid #ddd;
+			        padding: 20px;
+			        margin-bottom: 30px;
+			        border-radius: 6px;
+			        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+			    }
+
+			    table {
+			        border-collapse: collapse;
+			        width: 100%;
+			        background-color: #fff;
+			    }
+
+			    th, td {
+			        padding: 10px 12px;
+			        border: 1px solid #ddd;
+			        text-align: left;
+			    }
+
+			    th {
+			        background-color: #f0f0f0;
+			    }
+
+			    input[type="text"],
+			    input[type="number"],
+			    input[type="date"],
+			    select {
+			        width: 250px;
+			        padding: 6px 10px;
+			        margin-bottom: 10px;
+			        border: 1px solid #ccc;
+			        border-radius: 4px;
+			    }
+
+			    button {
+			        background-color: #2980b9;
+			        color: white;
+			        padding: 8px 16px;
+			        border: none;
+			        border-radius: 4px;
+			        cursor: pointer;
+			    }
+
+			    button:hover {
+			        background-color: #1f6391;
+			    }
+
+			    a {
+			        color: #2980b9;
+			        text-decoration: none;
+			        margin-left: 10px;
+			    }
+
+			    a:hover {
+			        text-decoration: underline;
+			    }
+
+			    .acciones a {
+			        margin-right: 8px;
+			    }
+
+			    .mensaje {
+			        color: green;
+			        font-weight: bold;
+			        margin-bottom: 10px;
+			    }
+
+			    .error {
+			        color: red;
+			        font-weight: bold;
+			        margin-bottom: 10px;
+			    }
+			</style>
+	
+</head>
+<body>
+    <h1>Entregas </h1>
+
+    <form th:action="@{/entregas}" method="get">
+        <label>Nombre Familia:</label>
+        <input type="text" name="nombre" th:value="${param.nombre}" />
+
+        <label>Nro Familia:</label>
+        <input type="number" name="nro" th:value="${param.nro}" />
+
+        <label>Fecha:</label>
+        <input type="date" name="fecha" th:value="${param.fecha}" />
+
+        <button type="submit">🔍 Filtrar</button>
+    </form>
+
+    <a th:href="@{/entregas/nueva}">➕ Nueva Entrega</a>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nro Familia</th>
+                <th>Nombre Familia</th>
+                <th>Plato Entregado</th>
+                <th>Cantidad</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="e : ${entregas}">
+                <td th:text="${e.familia.id}"></td>
+                <td th:text="${e.familia.nombre}"></td>
+                <td th:text="${e.preparacion.receta.nombre}"></td>
+                <td th:text="${e.cantidadRaciones}"></td>
+                <td th:text="${e.fecha}"></td>
+                <td>
+                    <a th:href="@{'/entregas/eliminar/' + ${e.id}}" onclick="return confirm('¿Eliminar entrega?')">🗑 Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Menú Principal</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            margin: 50px auto;
+            max-width: 600px;
+            background-color: #f9f9f9;
+            color: #2c3e50;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        ul {
+            list-style: none; /* Quita los puntos */
+            padding: 0;
+        }
+
+        ul li {
+            margin: 15px 0;
+            font-size: 18px;
+            background: #ffffff;
+            padding: 12px 18px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        ul li:hover {
+            background-color: #e3f2fd;
+        }
+
+        ul li a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        ul li a:hover {
+            color: #007acc;
+            text-decoration: underline;
+        }
+
+        .icono {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>📋 Menú Principal</h1>
+
+    <ul>
+        <li><a th:href="@{/familias}" target="_blank"><span class="icono">🏠</span> Familias</a></li>
+        <li><a th:href="@{/recetas}" target="_blank"><span class="icono">🍽</span> Recetas</a></li>
+        <li><a th:href="@{/preparaciones}" target="_blank"><span class="icono">🥣</span> Preparaciones</a></li>
+        <li><a th:href="@{/entregas}" target="_blank"><span class="icono">📦</span> Entregas</a></li>
+    </ul>
+
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Familias</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            margin: 30px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .form-section {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: #fff;
+        }
+
+        th, td {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select {
+            width: 250px;
+            padding: 6px 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #2980b9;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1f6391;
+        }
+
+        a {
+            color: #2980b9;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .acciones a {
+            margin-right: 8px;
+        }
+
+        .mensaje {
+            color: green;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Familias</h1>
+<a th:href="@{/familias/nueva}">➕ Nueva Familia</a>
+
+<!-- Formulario de búsqueda -->
+<form th:action="@{/familias}" method="get">
+    <label>Buscar por nombre:</label>
+    <input type="text" name="nombre" th:value="${param.nombre}" placeholder="Nombre de la familia" />
+    
+    <label>Buscar por Nro Familia:</label>
+    <input type="number" name="id" th:value="${param.id}" placeholder="Nro de la familia" />
+
+    <button type="submit">Buscar</button>
+</form>
+
+<!-- Tabla de listado de familias -->
+<table>
+    <thead>
+        <tr>
+            <th>Nro Familia</th>
+            <th>Nombre Familia</th>
+            <th>Fecha Alta</th>
+            <th>Fecha Última Asistencia</th>
+            <th>Nro de Integrantes Activos</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="familia : ${familias}">
+            <td th:text="${familia.id}"></td> <!-- Nro Familia -->
+            <td th:text="${familia.nombre}"></td> <!-- Nombre Familia -->
+            <td th:text="${familia.fechaAlta}"></td> <!-- Fecha Alta -->
+            <td th:text="${familia.fechaUltimaAsistencia}"></td> <!-- Fecha Última Asistencia -->
+            <td th:text="${familia.getCantidadIntegrantesActivos()}"></td> <!-- Nro de Integrantes Activos -->
+            <td class="acciones">
+                <a th:href="@{'/familias/editar/' + ${familia.id}}">✏️ Editar</a>
+                <a th:href="@{'/familias/eliminar/' + ${familia.id}}"
+                   onclick="return confirm('¿Seguro que desea eliminar?')">🗑 Eliminar</a>
+            </td>
+        </tr>
+        <tr th:if="${familias.empty}">
+            <td colspan="6">No se encontraron familias.</td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
