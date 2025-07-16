@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Editar Fecha de Preparación</title>
+    <meta charset="UTF-8">
+	
+	<style>
+		    body {
+		        font-family: "Segoe UI", sans-serif;
+		        margin: 30px;
+		        background-color: #f9f9f9;
+		    }
+
+		    h1, h2, h3 {
+		        color: #2c3e50;
+		        margin-bottom: 15px;
+		    }
+
+		    .form-section {
+		        background-color: #fff;
+		        border: 1px solid #ddd;
+		        padding: 20px;
+		        margin-bottom: 30px;
+		        border-radius: 6px;
+		        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+		    }
+
+		    table {
+		        border-collapse: collapse;
+		        width: 100%;
+		        background-color: #fff;
+		    }
+
+		    th, td {
+		        padding: 10px 12px;
+		        border: 1px solid #ddd;
+		        text-align: left;
+		    }
+
+		    th {
+		        background-color: #f0f0f0;
+		    }
+
+		    input[type="text"],
+		    input[type="number"],
+		    input[type="date"],
+		    select {
+		        width: 250px;
+		        padding: 6px 10px;
+		        margin-bottom: 10px;
+		        border: 1px solid #ccc;
+		        border-radius: 4px;
+		    }
+
+		    button {
+		        background-color: #2980b9;
+		        color: white;
+		        padding: 8px 16px;
+		        border: none;
+		        border-radius: 4px;
+		        cursor: pointer;
+		    }
+
+		    button:hover {
+		        background-color: #1f6391;
+		    }
+
+		    a {
+		        color: #2980b9;
+		        text-decoration: none;
+		        margin-left: 10px;
+		    }
+
+		    a:hover {
+		        text-decoration: underline;
+		    }
+
+		    .acciones a {
+		        margin-right: 8px;
+		    }
+
+		    .mensaje {
+		        color: green;
+		        font-weight: bold;
+		        margin-bottom: 10px;
+		    }
+
+		    .error {
+		        color: red;
+		        font-weight: bold;
+		        margin-bottom: 10px;
+		    }
+		</style>
+	
+</head>
+<body>
+
+<h1>Editar Fecha</h1>
+
+<form th:action="@{'/preparaciones/editar/' + ${preparacion.id}}" method="post">
+    <label>Nueva Fecha:</label>
+    <input type="date" name="fecha" th:value="${preparacion.fecha}" required />
+    <br/>
+
+    <button type="submit">💾 Actualizar</button>
+    <a th:href="@{/preparaciones}">🔙 Cancelar</a>
+</form>
+
+</body>
+</html>
