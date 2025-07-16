@@ -72,8 +72,8 @@
 <h2>Editar Familia</h2>
 <div th:if="${mensaje}" class="mensaje" th:text="${mensaje}"></div>
 
+<!-- Formulario principal de edición de familia -->
 <form th:action="@{/familias}" th:object="${familia}" method="post" id="formulario-principal">
-
     <input type="hidden" th:field="*{id}" />
     <div class="form-section">
         <label>Nombre de la familia:</label>
@@ -89,6 +89,7 @@
     </div>
 </form>
 
+<!-- Listado de integrantes con opción de edición uno por uno -->
 <div class="form-section">
     <h3>Integrantes de la familia</h3>
     <table>
@@ -127,12 +128,12 @@
 		        </select>
 		    </td>
 		    <td>
-		        <!-- Botón para habilitar la edición -->
+		         <!-- Botón para habilitar la edición de un integrante -->
 		        <form th:action="@{'/familias/editar/' + ${familia.id}}" method="get" style="display:inline;">
 		            <input type="hidden" name="editarId" th:value="${a.id}" />
 		            <button type="submit">✏️</button>
 		        </form>
-		        <!-- Botón para eliminar -->
+		        <!-- Botón para eliminar integrante -->
 		        <form th:action="@{/familias/eliminarAsistido}" method="post" style="display:inline;">
 		            <input type="hidden" name="asistidoId" th:value="${a.id}" />
 		            <input type="hidden" name="familiaId" th:value="${familia.id}" />
@@ -146,6 +147,7 @@
     </table>
 </div>
 
+<!-- Sección para agregar un nuevo integrante -->
 <div class="form-section" th:if="${familia.id != null}">
     <h3>Agregar nuevo integrante</h3>
     <form th:action="@{/familias/agregarAsistido}" th:object="${nuevoAsistido}" method="post">
