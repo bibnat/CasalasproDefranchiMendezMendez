@@ -8,9 +8,9 @@ public interface FamiliaService {
     Familia guardar(Familia familia);
     List<Familia> listar();
     
-    // Sólo dejamos una declaración de buscarPorId
-    Familia buscarPorId(Long id);  // Eliminar duplicados
+    
+    Familia buscarPorId(Long id);  // Buscar familia activa por ID
     
     // Método de búsqueda por nombre
-    List<Familia> buscarPorNombre(String nombre);  // Buscar por nombre
+    List<Familia> buscarPorNombre(String nombre);
 }
