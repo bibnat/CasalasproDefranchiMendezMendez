@@ -95,7 +95,8 @@
 <h1>Familias</h1>
 <a th:href="@{/familias/nueva}">➕ Nueva Familia</a>
 
-<!-- Formulario de búsqueda -->
+
+<!-- Formulario para buscar familias por nombre o por número -->
 <form th:action="@{/familias}" method="get">
     <label>Buscar por nombre:</label>
     <input type="text" name="nombre" th:value="${param.nombre}" placeholder="Nombre de la familia" />
@@ -120,11 +121,11 @@
     </thead>
     <tbody>
         <tr th:each="familia : ${familias}">
-            <td th:text="${familia.id}"></td> <!-- Nro Familia -->
-            <td th:text="${familia.nombre}"></td> <!-- Nombre Familia -->
-            <td th:text="${familia.fechaAlta}"></td> <!-- Fecha Alta -->
-            <td th:text="${familia.fechaUltimaAsistencia}"></td> <!-- Fecha Última Asistencia -->
-            <td th:text="${familia.getCantidadIntegrantesActivos()}"></td> <!-- Nro de Integrantes Activos -->
+            <td th:text="${familia.id}"></td>
+            <td th:text="${familia.nombre}"></td> 
+            <td th:text="${familia.fechaAlta}"></td> 
+            <td th:text="${familia.fechaUltimaAsistencia}"></td> 
+            <td th:text="${familia.getCantidadIntegrantesActivos()}"></td> 
             <td class="acciones">
                 <a th:href="@{'/familias/editar/' + ${familia.id}}">✏️ Editar</a>
                 <a th:href="@{'/familias/eliminar/' + ${familia.id}}"
