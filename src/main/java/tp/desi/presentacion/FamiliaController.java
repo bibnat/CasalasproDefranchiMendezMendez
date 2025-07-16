@@ -25,6 +25,8 @@ public class FamiliaController {
     @Autowired
     private IAsistidoRepo asistidoRepo;
 
+ // Muestra el listado de familias, con opción de filtrar por nombre o ID
+    
     @GetMapping
     public String listar(@RequestParam(value = "nombre", required = false) String nombre,
                          @RequestParam(value = "id", required = false) Long id,
@@ -32,20 +34,20 @@ public class FamiliaController {
 
         List<Familia> familias;
 
-        // Si se pasa un nombre, buscar por nombre
+       
         if (nombre != null && !nombre.isEmpty()) {
             familias = familiaService.buscarPorNombre(nombre);
         } 
-        // Si se pasa un ID, buscar por ID
+       
         else if (id != null) {
-            Familia familia = familiaService.buscarPorId(id);  // Buscar una familia por ID
+            Familia familia = familiaService.buscarPorId(id); 
             if (familia != null) {
-                familias = List.of(familia);  // Crear una lista con una sola familia
+                familias = List.of(familia);  
             } else {
-                familias = List.of();  // Si no se encuentra la familia, retornamos una lista vacía
+                familias = List.of();  
             }
         }
-        // Si no se pasa nombre ni ID, mostrar todas las familias activas
+        
         else {
             familias = familiaService.listar();
         }
@@ -53,13 +55,15 @@ public class FamiliaController {
         model.addAttribute("familias", familias);
         return "listarFam";
     }
-
+    
+    // Muestra el formulario para registrar una nueva familia
+    
     @GetMapping("/nueva")
     public String nueva(Model model) {
         Familia familia = new Familia();
 
-        // Asignar la fecha actual a fechaRegistro
-        familia.setFechaRegistro(LocalDate.now());  // Aquí asignamos la fecha actual al campo fechaRegistro
+        
+        familia.setFechaRegistro(LocalDate.now());  
         
 
         model.addAttribute("familia", familia);
@@ -67,19 +71,21 @@ public class FamiliaController {
         return "formularioFamilia";
     }
 
+    // Guarda una nueva familia o actualiza una existente, conservando los integrantes
+    
     @PostMapping
     public String guardar(@ModelAttribute Familia familia, RedirectAttributes redirectAttributes) {
-        boolean esNueva = (familia.getId() == null); // Si no tiene ID, es nueva
+        boolean esNueva = (familia.getId() == null); // 
 
-        // Si la familia ya existe, conservar los integrantes previos
+        
         Familia existente = familiaService.buscarPorId(familia.getId());
         if (existente != null) {
-            familia.setIntegrantes(existente.getIntegrantes()); // evita que se borren
+            familia.setIntegrantes(existente.getIntegrantes()); 
         }
 
         Familia guardada = familiaService.guardar(familia);
 
-        // Mostrar mensaje según si es nueva o existente
+       
         if (esNueva) {
             redirectAttributes.addFlashAttribute("mensaje", "Familia guardada con éxito. Ahora agregá al menos un integrante.");
         } else {
@@ -89,6 +95,7 @@ public class FamiliaController {
         return "redirect:/familias/editar/" + guardada.getId();
     }
 
+ // Muestra el formulario para editar una familia existente
 
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Long id,
@@ -101,16 +108,19 @@ public class FamiliaController {
 
         model.addAttribute("familia", familia);
         model.addAttribute("nuevoAsistido", new Asistido());
-        model.addAttribute("editarId", editarId); // se pasa al HTML para habilitar ese integrante
+        model.addAttribute("editarId", editarId); 
         return "formularioFamilia";
     }
 
+    // Elimina lógicamente una familia
 
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable Long id) {
         familiaService.eliminar(id);
         return "redirect:/familias";
     }
+    
+ // Agrega un nuevo integrante a la familia
 
     @PostMapping("/agregarAsistido")
     public String agregarAsistido(@ModelAttribute("nuevoAsistido") Asistido asistido,
@@ -129,6 +139,8 @@ public class FamiliaController {
             return "redirect:/familias/editar/" + familiaId;
         }
     }
+    
+ // Edita los datos de un integrante existente
     
     @PostMapping("/editarAsistido")
     public String editarAsistido(@RequestParam Long asistidoId,
@@ -156,6 +168,8 @@ public class FamiliaController {
         return "redirect:/familias/editar/" + familiaId;
     }
 
+ // Elimina lógicamente a un integrante de la familia
+    
     @PostMapping("/eliminarAsistido")
     public String eliminarAsistido(@RequestParam Long asistidoId,
                                    @RequestParam Long familiaId,
