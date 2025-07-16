@@ -25,7 +25,7 @@ public class FamiliaServiceImpl implements FamiliaService {
 
     @Override
     public Familia buscarPorId(Long id) {
-        // Solo una implementación aquí
+        
         return repo.findByIdAndEliminadoFalse(id)
                 .orElse(null); // Si no se encuentra la familia, retornamos null
     }
@@ -39,38 +39,39 @@ public class FamiliaServiceImpl implements FamiliaService {
     public void eliminar(Long id) {
         Familia familia = buscarPorId(id);
         if (familia != null) {
-            familia.setEliminado(true);  // Marcar como eliminada lógicamente
+            familia.setEliminado(true);  // Eliminación lógica de la familia
             repo.save(familia);
         }
     }
 
-    // Implementación del método buscarPorNombre
+  
     @Override
     public List<Familia> buscarPorNombre(String nombre) {
         return repo.findByNombreContainingIgnoreCaseAndEliminadoFalse(nombre);
     }
-
-    // Método para agregar un nuevo Asistido (miembro de la familia)
+    
+ // Metodo para agregar un integrante a la familia, validando que el DNI no se repita 
+    
     public void agregarAsistido(Asistido asistido, Long familiaId) {
         Familia familia = buscarPorId(familiaId);
         if (familia != null) {
-            // Validación para asegurarse de que el DNI no esté repetido
+           
             for (Asistido existente : familia.getIntegrantes()) {
             	if (existente.getDni() == asistido.getDni()) {
             	    throw new IllegalArgumentException("El DNI ya está registrado en esta familia.");
             	}
             }
             asistido.setFamilia(familia);
-            asistido.setEliminado(false); // Asegurarse de que el asistido no esté marcado como eliminado al principio
+            asistido.setEliminado(false);
             asistidoRepo.save(asistido);
         }
     }
 
-    // Método para eliminar un asistido (miembro de la familia) lógicamente
+    // Método para eliminar a un integrante lógicamente
     public void eliminarAsistido(Long asistidoId) {
         Asistido asistido = asistidoRepo.findById(asistidoId).orElse(null);
         if (asistido != null) {
-            asistido.setEliminado(true); // Eliminación lógica del asistido
+            asistido.setEliminado(true);
             asistidoRepo.save(asistido);
         }
     }
